@@ -1,0 +1,136 @@
+/* =============================================================
+ * Waline 评论系统 - 青空集定制样式
+ * 设计目标：字体更精致、头像统一为站点头像、整体更美观
+ * =============================================================
+ */
+:root body {
+  /* === 主题色（粉蓝萌系，与站点一致） === */
+  --waline-theme-color: #e9546b;
+  --waline-active-color: #ed788c;
+
+  /* === 字体：比默认 1rem 略小，更精致 === */
+  --waline-font-size: 0.925rem;
+
+  /* === 头像尺寸：缩小与字体协调 === */
+  --waline-avatar-size: 2.75rem;
+
+  /* === 颜色：柔和版 === */
+  --waline-color: #555;
+  --waline-light-grey: #999;
+  --waline-border-color: #e8e3ec;
+  --waline-bg-color-light: #faf7fb;
+  --waline-bg-color-hover: #f4eef6;
+  --waline-disable-bg-color: #faf7fb;
+  --waline-info-bg-color: #faf7fb;
+  --waline-info-color: #a394ad;
+}
+
+/* === 暗色模式（与站点暗色协调） === */
+html.dark body {
+  --waline-theme-color: #ed788c;
+  --waline-active-color: #f09aab;
+  --waline-color: #b8b0c0;
+  --waline-border-color: #3a3542;
+  --waline-bg-color-light: #26232b;
+  --waline-bg-color-hover: #2e2a36;
+  --waline-disable-bg-color: #26232b;
+  --waline-info-bg-color: #26232b;
+  --waline-info-color: #8e8598;
+}
+
+/* =============================================================
+ * 头像：统一显示站点作者头像（所有游客评论同一头像）
+ * 使用 content 替换，无需改服务端和数据库
+ * =============================================================
+ */
+.wl-avatar img {
+  content: url('/img/custom/avatar.webp') !important;
+  border-radius: 50% !important;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgb(233 84 107 / 0.15);
+}
+
+/* =============================================================
+ * 评论容器美化
+ * =============================================================
+ */
+/* 评论面板：圆角 + 柔和边框 */
+.wl-panel {
+  border-radius: 12px;
+  border-color: var(--waline-border-color);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.04);
+  transition: box-shadow 0.25s ease;
+}
+.wl-panel:focus-within {
+  box-shadow: 0 4px 16px rgb(233 84 107 / 0.12);
+  border-color: var(--waline-theme-color);
+}
+
+/* 输入框：无边框，仅保留内边距与占位色 */
+.wl-input {
+  font-size: var(--waline-font-size);
+  line-height: 1.7;
+}
+.wl-input::placeholder {
+  color: var(--waline-info-color);
+  font-size: 0.9em;
+}
+
+/* 提交按钮：圆角胶囊 + 柔和阴影 */
+.wl-btn.primary {
+  border-radius: 999px;
+  padding: 0.45em 1.4em;
+  box-shadow: 0 2px 8px rgb(233 84 107 / 0.25);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.wl-btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(233 84 107 / 0.35);
+}
+.wl-btn.primary:active {
+  transform: translateY(0);
+}
+
+/* 每条评论卡片：悬浮微效果 */
+.wl-card {
+  border-radius: 10px;
+  padding: 0.4em 0;
+  transition: background 0.2s ease;
+}
+.wl-card:hover {
+  background: var(--waline-bg-color-hover);
+}
+
+/* 评论内容：更舒适的阅读行高 */
+.wl-content {
+  font-size: var(--waline-font-size);
+  line-height: 1.75;
+}
+
+/* 回复/编辑等次要操作：更轻量 */
+.wl-action {
+  font-size: 0.85em;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+.wl-card:hover .wl-action {
+  opacity: 1;
+}
+
+/* 评论头部提示（喜欢的话...） */
+.wl-header {
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+
+/* 隐藏点赞按钮（纯匿名评论，不需要点赞） */
+.wl-like {
+  display: none !important;
+}
+
+/* 移动端适配：头像再小一点 */
+@media (max-width: 768px) {
+  :root body {
+    --waline-avatar-size: 2.25rem;
+  }
+}
