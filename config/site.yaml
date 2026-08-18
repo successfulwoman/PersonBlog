@@ -11,14 +11,14 @@
 # Site Basic Information
 # =============================================================================
 site:
-  title: 余弦の博客 # 网站名称
-  alternate: cosine # 网站英文名称 用于页脚、Logo、@ handle 等
-  subtitle: WA 的一声就哭了 # 网站副标题
-  name: cos # 作者名称 - 请修改为你的名字
-  description: 一个基于 Astro 的现代化博客主题 # 网站描述
+  title: CC和LL的个人博客 # 网站名称
+  alternate: ccll # 网站英文名称 用于页脚、Logo、@ handle 等
+  subtitle: 一个开放的娱乐平台 # 网站副标题
+  name: CC和LL # 作者名称 - 请修改为你的名字
+  description: 一个开放的娱乐平台 # 网站描述
   avatar: /img/custom/avatar.webp # 网站头像（统一放在 public/img/custom/）
   showLogo: true # 是否显示 Logo
-  author: Author # 作者名称 - 请修改为你的名字
+  author: CC和LL # 作者名称 - 请修改为你的名字
   url: https://koharu.cosine.ren # 站点 URL 用于 RSS 和 SEO
   defaultOgImage: /img/custom/avatar.webp # 默认 Open Graph 图片
   startYear: 2024 # 建站年份
@@ -121,23 +121,15 @@ featuredCategories:
 #   highlightOnHome: 是否在首页高亮显示最新文章（可选，默认 true，显式设为 false 可禁用）
 #   links: 相关链接配置（可选）
 # -----------------------------------------------------------------------------
-featuredSeries:
-  - slug: weekly # URL 路径: /weekly
-    categoryName: 周刊 # 必须与 categoryMap 中的分类名匹配
-    label: 我的周刊 # 简短名称
-    fullName: 我的技术周刊 # 完整名称
-    description: | # 支持多行 Markdown
-      这是周刊/系列文章功能的示例配置。
-      你可以用它来发布定期更新的系列内容，如技术周刊、读书笔记系列等。
-      设置 enabled: false 可以关闭此功能。
-    cover: /img/custom/weekly_header.webp # 系列页面头图（统一放在 public/img/custom/）
-    enabled: true # 启用此系列
-    icon: ri:newspaper-line # 导航图标
-    links: # 相关链接（可选）
-      github: https://github.com/your-username/your-repo # (可选) GitHub 仓库
-      rss: /rss.xml # (可选) RSS 订阅链接
-      # chrome: https://chromewebstore.google.com/detail/your-extension-id # (可选) 浏览器插件
-      # docs: https://your-docs-url # (可选) 文档链接
+# featuredSeries:
+#   - slug: weekly # URL 路径: /weekly
+#     categoryName: 周刊 # 必须与 categoryMap 中的分类名匹配
+#     label: 我的周刊 # 简短名称
+#     fullName: 我的技术周刊 # 完整名称
+#     description: 系列介绍文字，支持多行 Markdown
+#     cover: /img/custom/weekly_header.webp # 系列页面头图（统一放在 public/img/custom/）
+#     enabled: true # 启用此系列
+#     icon: ri:newspaper-line # 导航图标
   # 示例：添加第二个系列（取消注释启用）
   # - slug: reading # URL 路径: /reading
   #   categoryName: 书摘
@@ -161,14 +153,14 @@ featuredSeries:
 # 添加新平台：复制现有配置块，修改键名和各字段值即可
 # -----------------------------------------------------------------------------
 social:
-  github:
-    url: https://github.com/your-username # 替换为你的 GitHub 链接
-    icon: ri:github-fill # Remix Icon 的 GitHub 图标
-    color: '#191717' # (可选) 图标颜色
-  email:
-    url: mailto:your@email.com # 替换为你的邮箱，需加 mailto: 前缀
-    icon: ri:mail-line
-    color: '#55acd5'
+  # github:
+  #   url: https://github.com/your-username # 替换为你的 GitHub 链接
+  #   icon: ri:github-fill # Remix Icon 的 GitHub 图标
+  #   color: '#191717' # (可选) 图标颜色
+  # email:
+  #   url: mailto:your@email.com # 替换为你的邮箱，需加 mailto: 前缀
+  #   icon: ri:mail-line
+  #   color: '#55acd5'
   rss:
     url: /rss.xml # 站内 RSS 订阅地址
     icon: ri:rss-line
@@ -224,31 +216,7 @@ friends:
         desc: 站点简介 # 站点简介
         image: https://your-blog.com/avatar.jpg # 头像链接
         color: "#ffc0cb" # 主题色（可选）
-  data: # 友链列表
-    - site: 余弦の博客
-      url: https://blog.cosine.ren
-      owner: cos
-      desc: FE / ACG / 手工 / 深色模式强迫症 / INFP / 兴趣广泛养两只猫的老宅女 / remote
-      image: https://blog.cosine.ren/img/avatar.webp
-      color: '#ed788b'
-    - site: 示例博客 A
-      url: https://example-a.com
-      owner: Alice
-      desc: 一个热爱技术的开发者
-      image: https://api.dicebear.com/7.x/avataaars/svg?seed=Alice
-      color: '#BEDCFF'
-    - site: 示例博客 B
-      url: https://example-b.com
-      owner: Bob
-      desc: 分享生活与技术的小站
-      image: https://api.dicebear.com/7.x/avataaars/svg?seed=Bob
-      color: '#FBC1CC'
-    - site: 示例博客 C
-      url: https://example-c.com
-      owner: Carol
-      desc: 记录学习与成长的地方
-      image: https://api.dicebear.com/7.x/avataaars/svg?seed=Carol
-      color: '#ABDCFF'
+  data: [] # 友链列表（空列表，添加友链时在此处追加条目）
 
 # =============================================================================
 # Announcements
@@ -397,10 +365,10 @@ navigation:
     icon: ri:home-heart-fill # 图标
   # - name: 书摘
   #   path: /reading
-  - name: 周刊
-    nameKey: nav.weekly
-    path: /weekly
-    icon: ri:newspaper-line
+  # - name: 周刊
+  #   nameKey: nav.weekly
+  #   path: /weekly
+  #   icon: ri:newspaper-line
   # Optional explicit Moments position. When omitted, enabled Moments is inserted after Archives.
   # - feature: moments
   #   icon: ri:chat-smile-3-fill
@@ -517,14 +485,14 @@ navigation:
     # path: # 用于区分不同文章的自定义 js 路径，如果您的文章路径不是 location.pathname，需传此参数
     # lang: # 语言 (默认: 'zh-CN')
 comment:
-  provider: waline  # 'remark42' | 'giscus' | 'waline' | 'twikoo' | 'none'
-  waline:
-    serverURL: http://localhost:8360  # Waline 服务端地址（本地验证；正式部署改为你的域名）
-    login: disable                    # 禁用登录：游客直接评论，无需注册
-    meta: []                          # 隐藏昵称/邮箱/网址输入框 → 评论只需输入内容
-    requiredMeta: []                  # 昵称/邮箱/链接均不强制 → 纯匿名评论
-    reaction: false                   # 关闭表情反应
-    emoji: true                       # 保留表情（可选）
+  provider: none  # 'remark42' | 'giscus' | 'waline' | 'twikoo' | 'none' —— 未配置评论服务，保持关闭
+  # waline:
+  #   serverURL: http://localhost:8360  # Waline 服务端地址（本地验证；正式部署改为你的域名）
+  #   login: disable                    # 禁用登录：游客直接评论，无需注册
+  #   meta: []                          # 隐藏昵称/邮箱/网址输入框 → 评论只需输入内容
+  #   requiredMeta: []                  # 昵称/邮箱/链接均不强制 → 纯匿名评论
+  #   reaction: false                   # 关闭表情反应
+  #   emoji: true                       # 保留表情（可选）
   # remark42:
   #   host: https://comment.example.com/
   #   siteId: your-site-id
@@ -595,9 +563,9 @@ comment:
 # -----------------------------------------------------------------------------
 analytics:
   umami:
-    enabled: true
-    id: your-umami-id
-    endpoint: https://stats.example.com
+    enabled: false # 未配置 Umami 统计，保持关闭；配置好 id/endpoint 后改为 true
+    # id: your-umami-id
+    # endpoint: https://stats.example.com
     # statistics_display:
     #   token: your-umami-share-token
     #   article_page_views: true
@@ -627,15 +595,12 @@ seo:
 # Christmas/Seasonal Features
 # =============================================================================
 bgm:
-  enabled: true  # (有 audio 时自动启用，显式 false 可禁用)
+  enabled: false  # 全局背景音乐开关（添加你自己的歌单后改为 true）
   # metingApi: https://163.hyc.moe/  # Meting API 地址，默认为 https://163.hyc.moe/，推荐自部署
-  audio:
-    - title: 最爱山山
-      list:
-        - https://music.163.com/playlist?id=8676645748
-    - title: Love Vocaloid
-      list:
-        - https://music.163.com/playlist?id=8882890045
+  # audio:
+  #   - title: 我的歌单
+  #     list:
+  #       - https://music.163.com/playlist?id=你的歌单ID
 
 christmas:
   enabled: false # 总开关
@@ -663,10 +628,10 @@ christmas:
 #   label: 导航显示名称（可选，默认：追番）
 #   icon: 导航图标，Iconify 格式（可选，默认：ri:bilibili-fill）
 # -----------------------------------------------------------------------------
-bangumi:
-  userId: cosine
-  # label: 追番
-  # icon: ri:bilibili-fill
+# bangumi:
+#   userId: your-bangumi-username # 填入你的 Bangumi 用户名或数字 ID 后取消注释
+#   # label: 追番
+#   # icon: ri:bilibili-fill
 
 # =============================================================================
 # Development Tools (Dev Only)
@@ -683,7 +648,7 @@ bangumi:
 #     - urlTemplate: URL 模板，支持占位符 {path}（文件绝对路径）
 # -----------------------------------------------------------------------------
 dev:
-  localProjectPath: '/Users/yourname/path/to/astro-koharu' # 请修改为你的项目绝对路径
+  localProjectPath: 'C:\Users\Liwenlin\Desktop\Blog\PersonBlog\astro-koharu-6.2.2' # 请修改为你的项目绝对路径
   contentRelativePath: 'src/content/blog'
   editors:
     - id: vscode

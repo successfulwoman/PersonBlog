@@ -1,34 +1,24 @@
 ---
 layout: ../layouts/PageLayout.astro
-title: "About"
-coverTitle: "关于我"
-date: 2025-01-03 01:01:33
-description: "关于我？"
+title: "关于"
+coverTitle: "关于我们"
+date: 2026-02-01 12:00:00
+description: "CC和LL的个人博客 —— 一个开放的娱乐平台"
 ---
 
-## 你好，这里是余弦
+## 你好，这里是 CC 和 LL
 
-[![github badge](https://img.shields.io/badge/dynamic/json?color=blue&label=Github&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dgithub%26queryKey%3Dyusixian)](https://github.com/yusixian)
+欢迎来到我们的个人博客！
 
-cosine = 余弦 = cos
+这里是一个开放的娱乐平台，我们会在这里分享：
 
-愿热情永存，愿热爱不灭，愿生活无憾
+- 日常生活与随笔
+- 学习笔记与经验
+- 好用的工具与资源
+- 有趣的娱乐内容
 
-> 我们 都只是无名之辈 \
-> 做你自己最喜欢的事 \
-> 像花一样 肆意绽放 \
-> 不去管 有没有人欣赏
+> 敬请期待更多内容，我们正在建设中~
 
-### 找到我
+### 联系我们
 
-个人 Telegram 前端频道：日常碎碎念，偶尔掉落优质前端博文推荐、学习资源等
-
-https://t.me/cosine_front_end
-
-Gitbook 前端学习记录
-
-https://book.cosine.ren/
-
-[![GitHub State](https://git-stats.cosine.ren/api?username=yusixian&theme=dark&show_icons=true&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
-
-[![GitHub Streak](https://github-readme-streak-stats-rust-tau.vercel.app?user=yusixian&theme=dark&date_format=%5BY%20%5DM%20&hide_border=true)](https://git.io/streak-stats)
+（在这里添加你的联系方式，如邮箱、社交账号等）

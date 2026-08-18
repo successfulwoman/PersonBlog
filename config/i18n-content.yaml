@@ -19,10 +19,10 @@ en:
     weekly: Weekly
     front-end: Frontend
 
-  series:
-    weekly:
-      label: My Weekly
-      fullName: My Tech Weekly
+  # series:
+  #   weekly:
+  #     label: My Weekly
+  #     fullName: My Tech Weekly
 
   featuredCategories:
     life:
@@ -46,10 +46,10 @@ ja:
     weekly: 週刊
     front-end: フロントエンド
 
-  series:
-    weekly:
-      label: 週間ダイジェスト
-      fullName: テック週間ダイジェスト
+  # series:
+  #   weekly:
+  #     label: 週間ダイジェスト
+  #     fullName: テック週間ダイジェスト
 
   featuredCategories:
     life:

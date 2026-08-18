@@ -16,11 +16,12 @@ description: "我喜欢的音乐"
 {% endmedia %}
 ```
 
+<!-- 在此处添加你的歌单，示例：
+
 {% media audio %}
-- title: 诗岸歌单 山山～全是山山～
+- title: 我的歌单
   list:
-    - https://music.163.com/#/playlist?id=8676645748
-- title: 超かぐや姫！
-  list:
-    - https://music.163.com/#/album?id=358640968
+    - https://music.163.com/#/playlist?id=你的歌单ID
 {% endmedia %}
+
+-->
