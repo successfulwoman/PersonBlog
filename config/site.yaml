@@ -12,7 +12,7 @@
 # =============================================================================
 site:
   title: CC和LL的个人博客 # 网站名称
-  alternate: ccll # 网站英文名称 用于页脚、Logo、@ handle 等
+  alternate: CC&LL # 网站英文名称 用于页脚、Logo、@ handle 等
   subtitle: 一个开放的娱乐平台 # 网站副标题
   name: CC和LL # 作者名称 - 请修改为你的名字
   description: 一个开放的娱乐平台 # 网站描述
