@@ -61,6 +61,9 @@ jobs:
           tags: |
             ${{ env.IMAGE_BASE }}:latest
             ${{ env.IMAGE_BASE }}:${{ env.SHORT_SHA }}
+          # ACR 个人版不支持 buildx provenance/SBOM attestation, 必须禁用
+          provenance: false
+          sbom: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
