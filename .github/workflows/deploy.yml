@@ -84,6 +84,13 @@ jobs:
             export IMAGE="${{ env.IMAGE_BASE }}:latest"
             export BLOG_PORT="${{ secrets.BLOG_PORT }}"
             mkdir -p /opt/xiaoli_blog
+            # Caddyfile: 域名自动 HTTPS 反代到博客容器
+            cat > /opt/xiaoli_blog/Caddyfile <<'CADDY'
+            xiaoli.click {
+              encode gzip
+              reverse_proxy persion_blog:80
+            }
+            CADDY
             # 每次部署刷新 compose 定义, 保持与仓库同步
             cat > /opt/xiaoli_blog/docker-compose.yml <<'COMPOSE'
             services:
@@ -99,6 +106,21 @@ jobs:
                   timeout: 3s
                   start_period: 5s
                   retries: 3
+              caddy:
+                image: caddy:2-alpine
+                container_name: caddy
+                restart: unless-stopped
+                ports:
+                  - "80:80"
+                  - "443:443"
+                volumes:
+                  - /opt/xiaoli_blog/Caddyfile:/etc/caddy/Caddyfile:ro
+                  - caddy_data:/data
+                  - caddy_config:/config
+
+            volumes:
+              caddy_data:
+              caddy_config:
             COMPOSE
             docker login --username "${{ secrets.ACR_USERNAME }}" --password "${{ secrets.ACR_PASSWORD }}" "${{ secrets.ACR_REGISTRY }}"
             cd /opt/xiaoli_blog
