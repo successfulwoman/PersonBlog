@@ -86,7 +86,7 @@ jobs:
             mkdir -p /opt/xiaoli_blog
             # Caddyfile: 域名自动 HTTPS 反代到博客容器
             cat > /opt/xiaoli_blog/Caddyfile <<'CADDY'
-            http://xiaoli.click {
+            xiaoli.click {
               encode gzip
               reverse_proxy persion_blog:80
             }
