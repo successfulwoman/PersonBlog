@@ -1,0 +1,106 @@
+# =============================================================================
+# persion_blog CI/CD: GitHub Actions 构建 -> 阿里云 ACR -> ECS Docker 部署
+# =============================================================================
+# 触发: push 到 main (docs/ 变更除外) 或手动 workflow_dispatch
+#
+# 前置条件 (仓库 Settings > Secrets and variables > Actions):
+#   ACR_REGISTRY    ACR 登录域名, 以控制台给出为准, 如 crpi-xxx.cn-qingdao.personal.cr.aliyuncs.com
+#   ACR_NAMESPACE   ACR 命名空间 (个人版仅一个, 在 ACR 控制台创建)
+#   ACR_USERNAME    阿里云账号名 (控制台访问凭证页显示)
+#   ACR_PASSWORD    ACR 固定密码
+#   SERVER_HOST     ECS 公网 IP
+#   SERVER_USER     部署用户 (root)
+#   SERVER_SSH_KEY  SSH 私钥全文 (本机 .ssh/personblog_deploy)
+#   SERVER_PORT     SSH 端口 (22)
+#   BLOG_PORT       宿主机映射端口 (默认 8080, 可选)
+# =============================================================================
+
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-blog
+  cancel-in-progress: false
+
+env:
+  IMAGE_BASE: ${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}/persion_blog
+
+jobs:
+  build-and-push:
+    name: 构建并推送镜像 (ACR)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 计算短 SHA
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+
+      - name: 登录阿里云 ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: 构建并推送 (latest + short-sha 双标签)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_BASE }}:latest
+            ${{ env.IMAGE_BASE }}:${{ env.SHORT_SHA }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: 部署到 ECS
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH 同步 Compose 并更新容器
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            set -euo pipefail
+            export IMAGE="${{ env.IMAGE_BASE }}:latest"
+            export BLOG_PORT="${{ secrets.BLOG_PORT }}"
+            mkdir -p /opt/xiaoli_blog
+            # 每次部署刷新 compose 定义, 保持与仓库同步
+            cat > /opt/xiaoli_blog/docker-compose.yml <<'COMPOSE'
+            services:
+              persion_blog:
+                image: ${IMAGE}
+                container_name: persion_blog
+                restart: unless-stopped
+                ports:
+                  - "${BLOG_PORT:-8080}:80"
+                healthcheck:
+                  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1/"]
+                  interval: 30s
+                  timeout: 3s
+                  start_period: 5s
+                  retries: 3
+            COMPOSE
+            docker login --username "${{ secrets.ACR_USERNAME }}" --password "${{ secrets.ACR_PASSWORD }}" "${{ secrets.ACR_REGISTRY }}"
+            cd /opt/xiaoli_blog
+            docker compose pull
+            docker compose up -d
+            sleep 5
+            curl -fsS "http://127.0.0.1:${BLOG_PORT:-8080}/" > /dev/null && echo "DEPLOY_OK 页面已可访问"
+            docker image prune -f > /dev/null 2>&1 || true
