@@ -215,7 +215,13 @@ friends:
         desc: 站点简介 # 站点简介
         image: https://your-blog.com/avatar.jpg # 头像链接
         color: "#ffc0cb" # 主题色（可选）
-  data: [] # 友链列表（空列表，添加友链时在此处追加条目）
+  data:
+    - site: 素鱼个人博客 # 站点名称
+      url: https://blog.28453677.xyz/ # 站点网址
+      owner: 素鱼 # 站长昵称
+      desc: 一个简单的博客 # 站点简介
+      image: https://blog.28453677.xyz/favicon/favicon.ico # 头像链接（素鱼站点图标，已验证可访问）
+      color: "#ffc0cb" # 主题色（可省略，默认粉）
 
 # =============================================================================
 # Announcements
