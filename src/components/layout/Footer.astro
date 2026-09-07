@@ -17,8 +17,9 @@ const { className } = Astro.props;
 
 const locale = getLocaleFromUrl(Astro.url.pathname);
 const stats = await getSiteStats();
-const currentYear = new Date().getFullYear();
-const startYear = siteConfig?.startYear ?? currentYear;
+// 版权行时间：以东八区(UTC+8)为准的“年份 : 月份”，构建时算一个初始占位，访问者打开后由下方脚本实时刷新
+const bjNow = new Date(Date.now() + 8 * 60 * 60 * 1000);
+const copyrightYm = `${bjNow.getUTCFullYear()} : ${bjNow.getUTCMonth() + 1}`;
 ---
 
 <footer class={cn('mt-auto pb-6', className)}>
@@ -36,9 +37,9 @@ const startYear = siteConfig?.startYear ?? currentYear;
 
       <div class="bg-muted-foreground/30 h-4 w-px"></div>
 
-      <button class="flex items-center gap-2 opacity-75 transition-opacity duration-300 hover:opacity-100" title={t(locale, 'footer.readingTimeTitle')}>
+      <button type="button" class="flex items-center gap-2 opacity-75 transition-opacity duration-300 hover:opacity-100" title={t(locale, 'footer.currentTimeTitle')}>
         <Icon name="ri:time-line" class="h-4 w-4" />
-        <span class="font-medium">{stats.formattedTime}</span>
+        <span class="font-medium tabular-nums" data-footer-now></span>
       </button>
 
       <div class="bg-muted-foreground/30 h-4 w-px"></div>
@@ -65,20 +66,11 @@ const startYear = siteConfig?.startYear ?? currentYear;
     <!-- Copyright -->
     <div class="text-muted-foreground flex items-center gap-0.5 text-sm">
       <span class="opacity-75">©</span>
-      <span class="font-medium opacity-75">{startYear}</span>
-      {
-        startYear !== currentYear && (
-          <>
-            <span class="opacity-50">-</span>
-            <span class="font-medium opacity-75" itemprop="copyrightYear">
-              {currentYear}
-            </span>
-          </>
-        )
-      }
+      <span class="font-medium opacity-75 tabular-nums" itemprop="copyrightYear" data-footer-ym>
+        {copyrightYm}
+      </span>
       <SakuraSVG className="mx-1 size-5 animate-spin text-[#FFC0CB] duration-10000" />
       <span class="author font-medium opacity-75" itemprop="copyrightHolder">
-        {siteConfig.name}
         {siteConfig?.alternate ? `@${siteConfig.alternate}` : ''}
       </span>
     </div>
@@ -118,6 +110,31 @@ const startYear = siteConfig?.startYear ?? currentYear;
     </div>
   </div>
 </footer>
+
+<script is:inline data-astro-rerun>
+  (() => {
+    // 视图过渡重新执行时先清掉旧计时器，避免叠加
+    window.clearInterval(window.__footerClockTimer);
+    const elNow = document.querySelector('[data-footer-now]');
+    const elYm = document.querySelector('[data-footer-ym]');
+    const timeFmt = new Intl.DateTimeFormat('zh-CN', {
+      timeZone: 'Asia/Shanghai',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    const yearFmt = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', year: 'numeric' });
+    const monthFmt = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', month: 'numeric' });
+    const tick = () => {
+      const d = new Date();
+      if (elNow) elNow.textContent = timeFmt.format(d);
+      if (elYm) elYm.textContent = `${yearFmt.format(d)} : ${monthFmt.format(d)}`;
+    };
+    tick();
+    window.__footerClockTimer = window.setInterval(tick, 1000);
+  })();
+</script>
 
 <style>
   .footer-link {

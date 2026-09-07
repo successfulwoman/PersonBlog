@@ -173,7 +173,7 @@ export const uiStrings: UIStrings = {
   'footer.totalPosts': '{count} posts',
   'footer.totalWords': '{count} words',
   'footer.totalWordsTitle': 'Total words',
-  'footer.readingTimeTitle': 'Total reading time',
+  'footer.currentTimeTitle': 'Current time (Beijing, UTC+8)',
   'footer.postCountTitle': 'Total posts',
   'footer.runningDays': 'Running for {days} days',
   'footer.wordUnit': 'words',

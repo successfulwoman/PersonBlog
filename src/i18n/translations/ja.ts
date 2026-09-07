@@ -173,7 +173,7 @@ export const uiStrings: UIStrings = {
   'footer.totalPosts': '{count}件の投稿',
   'footer.totalWords': '{count}文字',
   'footer.totalWordsTitle': '合計の文字数',
-  'footer.readingTimeTitle': '合計の読書時間',
+  'footer.currentTimeTitle': '現在の時刻（北京時間 UTC+8）',
   'footer.postCountTitle': '合計の投稿数',
   'footer.runningDays': '稼働して{days}日が経過',
   'footer.wordUnit': '文字',

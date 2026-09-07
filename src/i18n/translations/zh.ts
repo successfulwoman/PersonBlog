@@ -172,7 +172,7 @@ export const uiStrings = {
   'footer.totalPosts': '{count} 篇文章',
   'footer.totalWords': '{count} 字',
   'footer.totalWordsTitle': '站点总字数',
-  'footer.readingTimeTitle': '站点阅读时长',
+  'footer.currentTimeTitle': '当前时间（北京时间 UTC+8）',
   'footer.postCountTitle': '文章总数',
   'footer.runningDays': '已运行 {days} 天',
   'footer.wordUnit': '字',
