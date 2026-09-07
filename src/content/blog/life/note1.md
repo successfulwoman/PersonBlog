@@ -12,9 +12,9 @@ description: AnimLog是一个个人开发的记番软件主要使用在安卓端
 link: note1               # 可选：自定义网址（不填则用文件名）
 cover: /img/custom/cover/note1cover.webp  # 可选：封面图（放在 public/img/ 下）
 tags:                       # 可选：标签
-  - 随笔
+  - 技术
 categories:                 # 可选：分类（分类名必须存在于 config/site.yaml 的 categoryMap）
-  - 随笔
+  - 技术
 sticky: false               # 可选：true = 置顶
 draft: false                # 可选：true = 草稿（正式发布时不显示）
 catalog: true               # 可选：是否显示侧边目录（默认 true）

@@ -14,10 +14,10 @@
 en:
   categories:
     life: Life
-    note: Notes
+    daily: Daily
     tools: Tools
     weekly: Weekly
-    front-end: Frontend
+    tech: Tech
 
   # series:
   #   weekly:
@@ -28,12 +28,12 @@ en:
     life:
       label: Life
       description: Life journals and essays
-    note:
-      label: Notes
-      description: Technical and study notes
-    note/front-end:
-      label: Frontend
-      description: Frontend technologies
+    daily:
+      label: Daily
+      description: Daily life sharing
+    tech:
+      label: Tech
+      description: Technology sharing
     tools:
       label: Tools
       description: Tool usage and productivity
@@ -41,10 +41,10 @@ en:
 ja:
   categories:
     life: 日常
-    note: ノート
+    daily: デイリー
     tools: ツール
     weekly: 週刊
-    front-end: フロントエンド
+    tech: テック
 
   # series:
   #   weekly:
@@ -55,12 +55,12 @@ ja:
     life:
       label: 日常
       description: 日常の記録とエッセイ
-    note:
-      label: ノート
-      description: 技術と学習のノート
-    note/front-end:
-      label: フロントエンド
-      description: フロントエンド技術
+    daily:
+      label: デイリー
+      description: 日々の生活の共有
+    tech:
+      label: テック
+      description: 技術に関する共有
     tools:
       label: ツール
       description: ツールの使い方と生産性
