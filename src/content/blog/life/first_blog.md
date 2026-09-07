@@ -10,7 +10,7 @@ title: 正式上线          # 必填：文章标题
 date: 2026-08-23 00:00:00   # 必填：发布日期（格式：年-月-日 时:分:秒）
 description: 正式通过GitHub进行服务器上线
 link: scent-blog               # 可选：自定义网址（不填则用文件名）
-cover: /img/custom/cover/scent_blog.webp  # 可选：封面图（放在 public/img/ 下）
+cover: /img/posts/scent_blog.webp  # 可选：封面图（放在 public/img/ 下）
 tags:                       # 可选：标签
   - 随笔
 categories:                 # 可选：分类（分类名必须存在于 config/site.yaml 的 categoryMap）
@@ -26,4 +26,4 @@ catalog: true               # 可选：是否显示侧边目录（默认 true）
 
 接下来我会在博客中分享我的生活或者一些知识,我并不在乎别人是否能够看到此博客,但如果有人关注的话我也会非常感谢！！！
 
-![其实这个图片是我在wallpaper上拔下来的[笑笑]也挺符合博客这个主题的](/img/custom/cover/scent_blog.webp)
+![其实这个图片是我在wallpaper上拔下来的（笑笑）也挺符合博客这个主题的](/img/posts/first_blog.webp)

@@ -152,10 +152,10 @@ featuredCategories:
 # 添加新平台：复制现有配置块，修改键名和各字段值即可
 # -----------------------------------------------------------------------------
 social:
-  # github:
-  #   url: https://github.com/your-username # 替换为你的 GitHub 链接
-  #   icon: ri:github-fill # Remix Icon 的 GitHub 图标
-  #   color: '#191717' # (可选) 图标颜色
+  github:
+    url: https://github.com/successfulwoman # 个人主页
+    icon: ri:github-fill # Remix Icon 的 GitHub 图标
+    color: '#191717' # (可选) 图标颜色
   # email:
   #   url: mailto:your@email.com # 替换为你的邮箱，需加 mailto: 前缀
   #   icon: ri:mail-line
