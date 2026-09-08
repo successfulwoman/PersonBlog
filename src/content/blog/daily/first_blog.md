@@ -26,4 +26,4 @@ catalog: true               # 可选：是否显示侧边目录（默认 true）
 
 接下来我会在博客中分享我的生活或者一些知识,我并不在乎别人是否能够看到此博客,但如果有人关注的话我也会非常感谢！！！
 
-![其实这个图片是我在wallpaper上拔下来的（笑笑）也挺符合博客这个主题的](/img/posts/first_blog.webp)
+![其实这个图片是我在wallpaper上拔下来的（笑笑）也挺符合博客这个主题的](/img/posts/scent_blog.webp)
