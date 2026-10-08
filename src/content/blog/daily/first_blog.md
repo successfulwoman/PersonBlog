@@ -8,7 +8,7 @@
 
 title: 正式上线          # 必填：文章标题
 date: 2026-08-23 00:00:00   # 必填：发布日期（格式：年-月-日 时:分:秒）
-description: 正式通过GitHub进行服务器上线
+description: 开源至GitHub并Action进行自动化push至服务器上线
 link: scent-blog               # 可选：自定义网址（不填则用文件名）
 cover: /img/posts/scent_blog.webp  # 可选：封面图（放在 public/img/ 下）
 tags:                       # 可选：标签
