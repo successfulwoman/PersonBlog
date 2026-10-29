@@ -6,7 +6,7 @@
 # 注意：本文件以 _ 开头，不会出现在网站上，放心留着当模板。
 # ============================================================
 
-title: this is my first workdaily before everyday clock out time          # 必填：文章标题
+title: WorkDaily1          # 必填：文章标题
 date: 2026-10-22 00:00:00   # 必填：发布日期（格式：年-月-日 时:分:秒）
 description: this arycle is about my workdaily
 link: workdaily1                # 可选：自定义网址（不填则用文件名）

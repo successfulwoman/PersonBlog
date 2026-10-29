@@ -24,14 +24,27 @@ const { locale = defaultLocale } = Astro.props;
 // 使用优化的单次查询获取所有首页数据
 const { highlightedPosts, stickyPosts: normalStickyPosts, regularPosts } = await getHomePagePosts(locale);
 
-// 将高亮系列文章放在置顶列表开头（转换为卡片数据）
-const stickyPosts = toPostCardDataList([...highlightedPosts, ...normalStickyPosts], locale);
+/**
+ * 无封面文章不进首页卡片列表。
+ *
+ * 需求：没有上传 cover 的帖子不应该在首页以「文章卡片」形式出现——卡片会从内置封面列表里
+ * 随机拿一张图顶上，看起来像是这篇文章自带的配图，容易误导读者。
+ * 这类文章改为在下方「特色分类」卡片的背面列表中按序号列出（见 CategoryCards.astro）。
+ *
+ * 注意：只过滤首页；/posts 归档页和分类/标签页仍然完整收录这些文章，保证可访问性。
+ */
+const hasCover = (post: BlogPost) => Boolean(post.data?.cover);
+const coveredStickyPosts = normalStickyPosts.filter(hasCover);
 
-// 首页显示前N篇普通文章（不含系列文章）
+// 将高亮系列文章放在置顶列表开头（转换为卡片数据）；高亮文章保持系列设定，不做封面过滤
+const stickyPosts = toPostCardDataList([...highlightedPosts, ...coveredStickyPosts], locale);
+
+// 首页显示前N篇普通文章（不含系列文章、不含无封面文章），分页总数也按过滤后的数量计算
 const { pageSize } = PAGINATION;
-const regularPostsSlice = regularPosts.slice(0, pageSize);
+const coveredRegularPosts = regularPosts.filter(hasCover);
+const regularPostsSlice = coveredRegularPosts.slice(0, pageSize);
 const posts = toPostCardDataList(regularPostsSlice, locale);
-const totalRegularPosts = regularPosts.length;
+const totalRegularPosts = coveredRegularPosts.length;
 
 const homeUrl = localizedPath('/', locale);
 const postsBaseUrl = localizedPath('/posts', locale);

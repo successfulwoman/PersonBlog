@@ -58,8 +58,13 @@ const categoryPosts: CategoryWithPosts[] = await Promise.all(
         : '';
       const categoryInfo = category?.category;
       const categoryLink = localizedPath(Routes.Categories + '/' + (category?.link ?? ''), locale);
-      const childrenLen = categoryInfo?.children?.length ?? 0;
-      const posts = category?.posts?.slice(0, 6 - (childrenLen ?? 0));
+      /**
+       * 卡片背面列出的文章。
+       * 改动原因：首页卡片区现在不再展示「没有上传封面」的文章（见 pages/index.astro），
+       * 这些文章只能从这里进入，所以不再按 6 - 子分类数 截断，改为列出该分类下全部文章，
+       * 交给容器自己的 max-h-24 + overflow-auto 滚动，避免无封面文章被截断而彻底找不到入口。
+       */
+      const posts = category?.posts ?? [];
       const displayName = translateCategoryName(category?.label ?? categoryInfo?.name ?? '', locale);
       return (
         <FlippedCard>
@@ -103,12 +108,15 @@ const categoryPosts: CategoryWithPosts[] = await Promise.all(
                     </a>
                   ))
                 : null}
-              {posts.map((post) => (
+              {posts.map((post, index) => (
+                // 改动原因：无封面文章被移出首页卡片后只能从这里访问，加序号方便定位，
+                // 序号按列表顺序（时间倒序）从 1 递增，纯文本展示不使用任何封面图。
                 <a
                   href={localizedPath(routeBuilder(Routes.Post, post), locale)}
-                  class="text-primary hover:text-blue truncate text-left transition-colors duration-300"
+                  class="text-primary hover:text-blue flex min-w-0 items-baseline gap-1.5 text-left transition-colors duration-300"
                 >
-                  {post.title}
+                  <span class="text-foreground/40 shrink-0 font-mono text-xs">{index + 1}</span>
+                  <span class="truncate">{post.title}</span>
                 </a>
               ))}
             </div>
