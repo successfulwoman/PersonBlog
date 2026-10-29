@@ -1,0 +1,422 @@
+<title>CC和LL个人博客 · Markdown 发帖使用手册</title>
+<p>本手册基于博客项目 astro-koharu 6.2.2 的实际配置和代码整理，照着做就能发帖。不用懂编程，会打字、会改文件即可。</p>
+
+<h1 seq="auto">一分钟看懂：这个博客是怎么发帖的</h1>
+<p>这是一个<b>静态博客</b>：你不需要登录什么后台，所谓「发帖」就是在项目文件夹里新建一个 <b>Markdown 文件</b>（后缀 .md 的纯文本文件）。网站重新构建后，这个文件会自动变成一篇网页文章。</p>
+<p>一篇文章由两部分组成：</p>
+<ul>
+<li><b>开头的标签区</b>（frontmatter）：文件最上面用两行 <code>---</code> 包起来的一段，写标题、日期、分类、标签、封面等信息。</li>
+<li><b>下面的正文</b>：用 Markdown 语法写内容，还支持博客自带的一堆特殊标签（提醒框、折叠块、练习题、公式等）。</li>
+</ul>
+<p>下图把「发帖五步流程」和「文章、图片、配置分别放在哪个文件夹」画在一起，发帖前看这一张就够了：</p>
+<html5-block path="@./post-flow.html"></html5-block>
+
+<h1 seq="auto">三个必须记住的位置</h1>
+<table>
+<colgroup><col width="190"/><col width="300"/><col width="330"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>位置</p></th><th background-color="light-gray"><p>路径</p></th><th background-color="light-gray"><p>装什么、怎么用</p></th></tr></thead>
+<tbody>
+<tr><td><p><b>文章目录</b></p></td><td><p><code>src/content/blog/</code></p></td><td><p>所有文章都放这里，按分类再分子目录：daily（日常）、life（随笔）、tech（技术）。模板文件 <code>_template.md</code> 也在这里。</p></td></tr>
+<tr><td><p><b>图片目录</b></p></td><td><p><code>public/img/</code></p></td><td><p>所有图片放这里。正文图和封面推荐放 <code>posts/</code>；头像、头图放 <code>custom/</code>；默认封面在 <code>custom/cover/</code>。</p></td></tr>
+<tr><td><p><b>站点配置</b></p></td><td><p><code>config/site.yaml</code></p></td><td><p>站名、分类映射、导航菜单、友情链接、社交账号等全部在这里改。改完要重启 <code>pnpm dev</code> 才生效。</p></td></tr>
+</tbody>
+</table>
+<callout emoji="📌" background-color="light-gray" border-color="gray"><p>两个命名规则：① 文件名用英文或拼音，如 <code>my-first-post.md</code>，文件名默认就是文章网址；② 文件名或文件夹名以下划线 <code>_</code> 开头的内容不会发布（例如 <code>_template.md</code>），可以放心当草稿模板。</p></callout>
+
+<h1 seq="auto">发一篇文章（三种方式，任选）</h1>
+<h2 seq="auto">方式一：手动复制模板（推荐，最直观）</h2>
+<ol>
+<li>打开 <code>src/content/blog/</code>，进入对应分类目录（日常进 daily、随笔进 life、技术进 tech）。</li>
+<li>复制 <code>_template.md</code>，粘贴后改名为英文/拼音，如 <code>my-post.md</code>。</li>
+<li>打开文件，改开头标签区和正文，保存。</li>
+<li>运行 <code>pnpm dev</code>，浏览器打开 <code>http://localhost:4321</code> 查看效果。</li>
+</ol>
+<h2 seq="auto">方式二：用命令行向导生成（适合熟手）</h2>
+<p>在项目根目录打开终端，运行下面命令，按提示输入标题、选分类、加标签即可，会自动生成规范的文件和网址：</p>
+<pre lang="bash"><code>pnpm koharu new post</code></pre>
+<p>添加友情链接用：<code>pnpm koharu new friend</code>（会自动写入 site.yaml）。</p>
+<h2 seq="auto">方式三：本地 CMS 可视化编辑（适合不想碰代码）</h2>
+<p>第一次使用先安装（只需一次），之后每次启动即可在浏览器里编辑文章、实时预览：</p>
+<pre lang="bash"><code>pnpm cms:install
+pnpm cms</code></pre>
+<p>CMS 保存的内容本质上还是写回 <code>src/content/blog/</code> 里的 Markdown 文件，所以三种方式可以混用，效果完全一样。</p>
+
+<h1 seq="auto">文章开头的标签（frontmatter）详解</h1>
+<p>每个 .md 文件最上面都有一段用两行 <code>---</code> 包起来的内容，这就是 frontmatter（元信息区）。它长这样：</p>
+<pre lang="yaml"><code>---
+title: 文章标题
+date: 2026-10-21 20:00:00
+tags:
+  - 技术
+categories:
+  - 技术
+---</code></pre>
+<p>下面是全部可用标签的含义，<b>带「必填」的只有 title 和 date 两个</b>，其余按需填写：</p>
+<table>
+<colgroup><col width="150"/><col width="90"/><col width="580"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>标签</p></th><th background-color="light-gray"><p>必填</p></th><th background-color="light-gray"><p>含义与写法</p></th></tr></thead>
+<tbody>
+<tr><td><p><code>title</code></p></td><td><p>是</p></td><td><p>文章标题，直接写文字。</p></td></tr>
+<tr><td><p><code>date</code></p></td><td><p>是</p></td><td><p>发布日期，格式固定为 <code>年-月-日 时:分:秒</code>，如 <code>2026-10-21 20:00:00</code>，按站点时区（Asia/Shanghai）解析。</p></td></tr>
+<tr><td><p><code>description</code></p></td><td><p>否</p></td><td><p>文章一句话摘要，显示在列表里并用于搜索引擎。不填会自动从正文开头截取。</p></td></tr>
+<tr><td><p><code>link</code></p></td><td><p>否</p></td><td><p>自定义文章网址，如 <code>link: my-post</code> 对应网址 <code>/post/my-post</code>。不填则用文件名。同一语言下不能重复。</p></td></tr>
+<tr><td><p><code>cover</code></p></td><td><p>否</p></td><td><p>封面图路径，如 <code>/img/posts/note1cover.webp</code>。不填则随机使用默认封面（custom/cover 里的 1~21.webp）。</p></td></tr>
+<tr><td><p><code>tags</code></p></td><td><p>否</p></td><td><p>标签列表，每行一个，前面加 <code>- </code>。标签可自由命名，不需要提前配置。</p></td></tr>
+<tr><td><p><code>categories</code></p></td><td><p>否</p></td><td><p>分类。<b>分类名必须在 site.yaml 的 categoryMap 里存在</b>，否则文章会报错或不显示。支持嵌套，见下一章。</p></td></tr>
+<tr><td><p><code>updated</code></p></td><td><p>否</p></td><td><p>文章最后更新日期，格式同 date。</p></td></tr>
+<tr><td><p><code>sticky</code></p></td><td><p>否</p></td><td><p>写 <code>true</code> 把文章置顶到首页，如 <code>sticky: true</code>。</p></td></tr>
+<tr><td><p><code>draft</code></p></td><td><p>否</p></td><td><p>写 <code>true</code> 标记为草稿：本地预览能看到，正式构建后自动隐藏。写完发布前删掉它或改成 false。</p></td></tr>
+<tr><td><p><code>catalog</code></p></td><td><p>否</p></td><td><p>是否显示右侧章节目录，默认 <code>true</code>；文章很短不需要目录时写 <code>false</code>。</p></td></tr>
+<tr><td><p><code>tocNumbering</code></p></td><td><p>否</p></td><td><p>目录标题是否自动编号，默认 <code>true</code>。</p></td></tr>
+<tr><td><p><code>subtitle</code></p></td><td><p>否</p></td><td><p>副标题，兼容旧主题（Hexo）数据用，一般不填。</p></td></tr>
+<tr><td><p><code>math</code></p></td><td><p>否</p></td><td><p>数学公式开关。站点已全局开启，正常不用写；只有某篇文章想<b>关闭</b>公式时写 <code>math: false</code>。</p></td></tr>
+<tr><td><p><code>quiz</code></p></td><td><p>否</p></td><td><p>文章里用到互动练习题时写 <code>quiz: true</code>（写法见 8.10）。</p></td></tr>
+<tr><td><p><code>password</code></p></td><td><p>否</p></td><td><p>给整篇文章加密，如 <code>password: 123456</code>，访问时必须输入密码。</p></td></tr>
+<tr><td><p><code>keywords</code></p></td><td><p>否</p></td><td><p>SEO 关键词列表，每行一个，帮助搜索引擎收录。</p></td></tr>
+<tr><td><p><code>excludeFromSummary</code></p></td><td><p>否</p></td><td><p>写 <code>true</code> 表示这篇文章不参与 AI 摘要自动生成。</p></td></tr>
+</tbody>
+</table>
+<p>可以直接参考下面这个带注释的完整模板：</p>
+<pre lang="yaml"><code>---
+title: 我的文章标题              # 必填：标题
+date: 2026-10-21 20:00:00        # 必填：发布日期
+description: 一句话介绍这篇文章    # 可选：摘要
+link: my-post                    # 可选：自定义网址
+cover: /img/posts/my-post.webp   # 可选：封面图
+tags:                            # 可选：标签
+  - 技术
+  - 日常
+categories:                      # 可选：分类（名字必须在 site.yaml 里）
+  - 技术
+sticky: false                    # 可选：true 置顶
+draft: false                     # 可选：true 草稿
+catalog: true                    # 可选：右侧目录
+---</code></pre>
+
+<h1 seq="auto">分类、标签和网址的规则</h1>
+<h2 seq="auto">当前博客已配置的分类</h2>
+<p>分类不能随便写，必须先在 <code>config/site.yaml</code> 的 <code>categoryMap</code> 里登记。当前站点配置了 5 个分类：</p>
+<table>
+<colgroup><col width="150"/><col width="180"/><col width="260"/><col width="230"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>分类名（写进文章）</p></th><th background-color="light-gray"><p>对应文件夹</p></th><th background-color="light-gray"><p>分类页网址</p></th><th background-color="light-gray"><p>含义</p></th></tr></thead>
+<tbody>
+<tr><td><p>随笔</p></td><td><p>life/</p></td><td><p>/categories/life</p></td><td><p>生活记录、随想</p></td></tr>
+<tr><td><p>日常</p></td><td><p>daily/</p></td><td><p>/categories/daily</p></td><td><p>日常生活分享</p></td></tr>
+<tr><td><p>技术</p></td><td><p>tech/</p></td><td><p>/categories/tech</p></td><td><p>技术分享</p></td></tr>
+<tr><td><p>工具</p></td><td><p>tools/（需建目录）</p></td><td><p>/categories/tools</p></td><td><p>好用的工具推荐</p></td></tr>
+<tr><td><p>周刊</p></td><td><p>weekly/（需建目录）</p></td><td><p>/categories/weekly</p></td><td><p>周期性系列文章</p></td></tr>
+</tbody>
+</table>
+<h2 seq="auto">单分类与嵌套分类的写法</h2>
+<pre lang="yaml"><code># 单个分类（最常用）
+categories:
+  - 技术
+
+# 嵌套分类（一级分类 + 二级分类，用方括号包起来）
+categories:
+  - [技术, 前端]</code></pre>
+<p>嵌套分类会生成「技术 → 前端」的面包屑和多级网址。二级分类名也需要在 categoryMap 里登记。</p>
+<h2 seq="auto">想新增一个分类怎么办</h2>
+<ol>
+<li>打开 <code>config/site.yaml</code>，在 <code>categoryMap:</code> 下面加一行映射，格式是「中文分类名: 英文短名」，例如 <code>读书笔记: reading</code>。</li>
+<li>在 <code>src/content/blog/</code> 下新建同名英文文件夹，如 <code>reading/</code>。</li>
+<li>文章里写 <code>categories: [读书笔记]</code> 即可。重启 dev 后生效。</li>
+</ol>
+<h2 seq="auto">标签和分类的区别</h2>
+<p><b>分类</b>是固定的大栏目，需要提前配置；<b>标签</b>是自由的关键词，想写什么写什么（如「Java」「踩坑」「深圳」），不需要配置，文章会自动出现在 <code>/tags/标签名</code> 页面。</p>
+
+<h1 seq="auto">图片放哪、怎么引用</h1>
+<h2 seq="auto">图片存放目录一览</h2>
+<p>所有图片统一放在 <code>public/img/</code> 下，<b>不要</b>放进 src 或其他目录：</p>
+<table>
+<colgroup><col width="240"/><col width="580"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>目录</p></th><th background-color="light-gray"><p>放什么</p></th></tr></thead>
+<tbody>
+<tr><td><p><code>public/img/posts/</code></p></td><td><p><b>推荐：文章正文图和封面都放这里。</b>站点现有文章都这么放。</p></td></tr>
+<tr><td><p><code>public/img/custom/</code></p></td><td><p>站点全局素材：头像 <code>avatar.webp</code>、顶部头图 <code>site_header_800/1920.webp</code>。</p></td></tr>
+<tr><td><p><code>public/img/custom/cover/</code></p></td><td><p>21 张默认封面 1.webp ~ 21.webp。文章不指定 cover 时会随机选一张。</p></td></tr>
+<tr><td><p><code>public/img/effects/</code></p></td><td><p>站点装饰特效图（holo.webp、sparkles.gif），发帖一般用不到。</p></td></tr>
+</tbody>
+</table>
+<h2 seq="auto">封面图怎么设置</h2>
+<p>把封面图片放进 <code>public/img/posts/</code>，然后在 frontmatter 里写路径，<b>路径以 /img/ 开头</b>（对应 public 目录）：</p>
+<pre lang="yaml"><code>cover: /img/posts/my-post-cover.webp</code></pre>
+<p>不想专门做封面就不写 cover，系统会自动用 custom/cover 里的默认图。</p>
+<h2 seq="auto">正文里插图怎么写</h2>
+<p>正文图片同样先放进 <code>public/img/posts/</code>，然后用 Markdown 图片语法引用，中括号里是图片说明（会显示为图注）：</p>
+<pre lang="markdown"><code>![主页截图](/img/posts/my-post-1.webp)
+
+![添加页面](/img/posts/my-post-2.webp)</code></pre>
+<p>图片会自动居中、懒加载、并把中括号里的文字作为图注。</p>
+<h2 seq="auto">图片命名和格式建议</h2>
+<ul>
+<li><b>命名</b>：跟着文章走，推荐「文章英文名.序号」，如 <code>note1.1.webp</code>、<code>note1.2.webp</code>；封面习惯加 cover，如 <code>note1cover.webp</code>。</li>
+<li><b>格式</b>：优先用 <code>.webp</code>（体积小、加载快），png/jpg/gif 也支持。</li>
+<li><b>新增图片后</b>：建议运行一次 <code>pnpm koharu generate all</code>，重新生成图片模糊占位图（LQIP），新图加载体验更好。</li>
+</ul>
+
+<h1 seq="auto">正文 Markdown 基础语法速查</h1>
+<p>博客支持标准 Markdown（GitHub 风格），常用写法如下：</p>
+<table>
+<colgroup><col width="170"/><col width="330"/><col width="320"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>效果</p></th><th background-color="light-gray"><p>写法</p></th><th background-color="light-gray"><p>说明</p></th></tr></thead>
+<tbody>
+<tr><td><p>标题</p></td><td><p><code># 一级</code> 到 <code>###### 六级</code></p></td><td><p>正文从二级标题 ## 开始用即可，一级标题建议只出现一次。</p></td></tr>
+<tr><td><p>加粗</p></td><td><p><code>**加粗文字**</code></p></td><td><p>重点内容</p></td></tr>
+<tr><td><p>斜体</p></td><td><p><code>*斜体文字*</code></p></td><td><p></p></td></tr>
+<tr><td><p>删除线</p></td><td><p><code>~~删除文字~~</code></p></td><td><p></p></td></tr>
+<tr><td><p>行内代码</p></td><td><p><code>`代码`</code></p></td><td><p>用反引号包起来</p></td></tr>
+<tr><td><p>代码块</p></td><td><p>三个反引号包一段，可标语言</p></td><td><p>见下方示例与 8.8</p></td></tr>
+<tr><td><p>引用</p></td><td><p><code>&gt; 引用内容</code></p></td><td><p>大于号开头</p></td></tr>
+<tr><td><p>无序列表</p></td><td><p><code>- 项目</code></p></td><td><p>减号加空格</p></td></tr>
+<tr><td><p>有序列表</p></td><td><p><code>1. 项目</code></p></td><td><p></p></td></tr>
+<tr><td><p>任务清单</p></td><td><p><code>- [x] 完成</code> / <code>- [ ] 待办</code></p></td><td><p>方括号里是 x 或空格</p></td></tr>
+<tr><td><p>链接</p></td><td><p><code>[文字](https://example.com)</code></p></td><td><p>外链自动新窗口打开</p></td></tr>
+<tr><td><p>图片</p></td><td><p><code>![说明](/img/posts/x.webp)</code></p></td><td><p>见第六章</p></td></tr>
+<tr><td><p>表格</p></td><td><p>竖线画表头和分隔行</p></td><td><p>见下方示例</p></td></tr>
+</tbody>
+</table>
+<pre lang="markdown"><code>| 列一 | 列二 |
+| --- | --- |
+| 内容 A | 内容 B |
+
+```js
+console.log('Hello, World!');
+```</code></pre>
+
+<h1 seq="auto">博客专属扩展标签（重点）</h1>
+<p>除了标准 Markdown，博客还内置了一套增强标签（Shoka 风格），站点配置里已全部默认开启。下面每个都给了「写法 + 效果」，直接抄即可。</p>
+
+<h2 seq="auto">8.1 提醒框 :::</h2>
+<p>用三冒号包一段内容，做成带颜色和图标的提示框。开头写 <code>:::</code> 加类型名，结尾单独一行写 <code>:::</code>。支持 5 种类型：<code>primary</code>（默认蓝）、<code>info</code>（信息）、<code>success</code>（成功绿）、<code>warning</code>（警告黄）、<code>danger</code>（危险红）。</p>
+<pre lang="markdown"><code>:::warning
+注意：删除文件后必须重新构建，网站上才会消失。
+:::
+
+:::success
+部署成功了，新文章已经上线！
+:::</code></pre>
+<p>不想显示图标时，在开头加 <code>no-icon</code>，如 <code>:::info no-icon</code>。提醒框可以嵌套，里面也能放列表、图片等内容。</p>
+
+<h2 seq="auto">8.2 折叠块 +++</h2>
+<p>把不想直接展示的内容收进一个「点击展开」的折叠面板，常用于答案、长日志。开头写 <code>+++类型 标题</code>，结尾写 <code>+++</code>。类型同样是 primary / info / success / warning / danger。</p>
+<pre lang="markdown"><code>+++info 点击查看答案
+这里是折叠起来的内容，点开标题才显示。
++++</code></pre>
+
+<h2 seq="auto">8.3 标签页（选项卡）;;;</h2>
+<p>把多块内容做成可切换的标签页，适合放同一件事的多个版本（如 Windows / Mac 不同操作）。每块用 <code>;;;分组ID 标签名</code> 开头、<code>;;;</code> 结尾；<b>分组 ID 相同的连续几块会组成一组标签页</b>（ID 自己起英文即可），第一块默认显示。</p>
+<pre lang="markdown"><code>;;;os Windows 用户
+在 Windows 上这样操作……
+;;;
+
+;;;os Mac 用户
+在 Mac 上这样操作……
+;;;</code></pre>
+
+<h2 seq="auto">8.4 行内文字效果</h2>
+<table>
+<colgroup><col width="180"/><col width="260"/><col width="380"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>效果</p></th><th background-color="light-gray"><p>写法</p></th><th background-color="light-gray"><p>说明</p></th></tr></thead>
+<tbody>
+<tr><td><p>下划线（插入）</p></td><td><p><code>++下划线文字++</code></p></td><td><p>渲染为下划线样式</p></td></tr>
+<tr><td><p>高亮</p></td><td><p><code>==高亮文字==</code></p></td><td><p>荧光笔标记效果</p></td></tr>
+<tr><td><p>下标</p></td><td><p><code>H~2~O</code></p></td><td><p>波浪号包起来，如化学式 H₂O</p></td></tr>
+<tr><td><p>上标</p></td><td><p><code>x^2^</code></p></td><td><p>尖帽号包起来，如 x²</p></td></tr>
+</tbody>
+</table>
+<p>注意：上下标是单符号（<code>~文字~</code>、<code>^文字^</code>），删除线是双波浪号 <code>~~文字~~</code>，两者不冲突。如果就想原样显示这些符号，在前面加反斜杠转义，如 <code>\+\+</code>。</p>
+
+<h2 seq="auto">8.5 剧透隐藏 !!</h2>
+<p>用双感叹号把文字藏起来（默认是粒子遮挡，鼠标点击/划过时显示），适合写答案、剧透、关键结论：</p>
+<pre lang="markdown"><code>电影的凶手是!!管家!!，这里先帮你挡住。
+
+模糊版遮挡：!!答案在这里!!{.blur}</code></pre>
+<p>末尾加 <code>{.blur}</code> 是毛玻璃模糊效果，不加则是默认的点击揭示效果。</p>
+
+<h2 seq="auto">8.6 注音与着重号</h2>
+<p>用花括号加尖帽号给文字标注注音（ruby），也支持日文振假名风格和着重号：</p>
+<table>
+<colgroup><col width="260"/><col width="560"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>写法</p></th><th background-color="light-gray"><p>效果</p></th></tr></thead>
+<tbody>
+<tr><td><p><code>{博客^bó kè}</code></p></td><td><p>文字上方显示注音</p></td></tr>
+<tr><td><p><code>{日本^=にほん}</code></p></td><td><p>整词注音（等号表示整体标注）</p></td></tr>
+<tr><td><p><code>{重点^*}</code></p></td><td><p>文字上方加实心圆点着重号</p></td></tr>
+</tbody>
+</table>
+
+<h2 seq="auto">8.7 给内容加样式 {.class}</h2>
+<p>花括号加点的语法可以给文字或整块内容附加样式类，最常用的场景就是 8.10 的练习题，日常了解三种形态即可：</p>
+<pre lang="markdown"><code>行内给文字加类：[这段文字]{.类名}
+
+单独一行的 {.类名} 会作用到它上面紧挨着的那个块（如上一段、上一个代码块）
+
+列表项末尾加类：
+- 这是一个选项 {.correct}</code></pre>
+
+<h2 seq="auto">8.8 代码块增强</h2>
+<p>代码块除了标注语言，还支持在开头那行追加几个参数：加文件名标题、高亮指定行、模拟终端命令行：</p>
+<pre lang="markdown"><code>```js title="hello.js"
+console.log('hi');
+```
+
+```js mark:1,3-5
+// 第 1 行和第 3~5 行会被高亮
+const a = 1;
+const b = 2;
+const c = 3;
+const d = 4;
+const e = 5;
+```
+
+```bash command:("$":1-3,"#":4-5)
+$ pnpm install
+$ pnpm dev
+$ pnpm build
+# 这几行显示为 # 开头的注释/root 提示符样式
+```</code></pre>
+<ul>
+<li><code>title="文件名"</code>：代码块顶部显示文件名；还可配合 <code>url="https://..."</code> 和 <code>linkText="源码"</code> 加外链。</li>
+<li><code>mark:1,3-5</code>：高亮第 1、3、4、5 行，逗号分隔，连续行用横线。</li>
+<li><code>command:("$":1-3)</code>：给指定行加终端提示符，<code>$</code> 是普通用户、<code>#</code> 是管理员。</li>
+<li>代码块自带复制按钮、全屏按钮；<b>行数太多会自动折叠</b>，不用手动处理。</li>
+<li>画流程图、时序图用 <code>```mermaid</code> 代码块，会自动渲染成图形。</li>
+</ul>
+
+<h2 seq="auto">8.9 数学公式（KaTeX）</h2>
+<p>站点已全局开启公式渲染。行内公式用单个美元号，独立成行的公式块用两个美元号：</p>
+<pre lang="markdown"><code>行内公式：$E = mc^2$
+
+独立公式块：
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$</code></pre>
+
+<h2 seq="auto">8.10 互动练习题 Quiz</h2>
+<p>可以在文章里插入可点击判分的练习题，支持单选、多选、判断、填空四种。建议在 frontmatter 写上 <code>quiz: true</code>。核心规则：最外层列表项末尾加 <code>{.quiz}</code>，正确选项加 <code>{.correct}</code>，列表紧跟一个引用块 <code>&gt;</code> 写解析。</p>
+<p><b>① 单选题</b>（题目是外层列表项，选项是内层缩进列表，正确项加 .correct）：</p>
+<pre lang="markdown"><code>- 1+1 等于几？{.quiz}
+  - 1
+  - 2 {.correct}
+  - 3
+
+> 解析：1+1 当然等于 2。</code></pre>
+<p><b>② 多选题</b>（外层加 .multi，多个正确项）：</p>
+<pre lang="markdown"><code>- 下面哪些是前端技术？{.quiz .multi}
+  - HTML {.correct}
+  - CSS {.correct}
+  - MySQL
+
+> 解析：HTML 和 CSS 是前端技术，MySQL 是数据库。</code></pre>
+<p><b>③ 判断题</b>（不写选项，.true 表示「对」、.false 表示「错」）：</p>
+<pre lang="markdown"><code>- 地球是太阳系的行星。{.quiz .true}
+
+> 解析：地球是太阳系八大行星之一。</code></pre>
+<p><b>④ 填空题</b>（加 .fill，答案用方括号加 .gap 包起来；解析里可用 .mistake 标常见错误）：</p>
+<pre lang="markdown"><code>- 中国的首都是[北京]{.gap}。{.quiz .fill}
+
+> 常见错误：[上海]{.mistake} 是经济中心，首都是北京。</code></pre>
+
+<h2 seq="auto">8.11 内容加密（整篇 / 段落）</h2>
+<p><b>只锁一段话</b>：用 <code>:::encrypted{password="密码"}</code> 块，读者需输入密码才显示这段内容（里面的代码、公式会先正常渲染再加密）：</p>
+<pre lang="markdown"><code>:::encrypted{password="123456"}
+这里是需要输入密码 123456 才能看到的内容。
+:::</code></pre>
+<p><b>锁整篇文章</b>：在 frontmatter 里加一行 <code>password: 你的密码</code>，打开文章页必须先输密码，且该文不会被站内搜索收录。</p>
+
+<h2 seq="auto">8.12 友情链接卡片与音视频</h2>
+<p><b>文章内插入友链卡片</b>：用 <code>{% links %}</code> 和 <code>{% endlinks %}</code> 包一段 YAML 列表：</p>
+<pre lang="markdown"><code>{% links %}
+- site: 朋友的博客
+  url: https://example.com
+  owner: 昵称
+  desc: 一句话简介
+  image: https://example.com/avatar.jpg
+  color: "#ffc0cb"
+{% endlinks %}</code></pre>
+<p><b>插入音频（歌单）或视频</b>：用 <code>{% media audio %}</code> / <code>{% media video %}</code>：</p>
+<pre lang="markdown"><code>{% media audio %}
+- title: 我的歌单
+  list:
+    - https://music.163.com/song?id=歌曲ID
+{% endmedia %}
+
+{% media video %}
+- name: 视频标题
+  url: https://example.com/video.mp4
+{% endmedia %}</code></pre>
+
+<h2 seq="auto">8.13 链接卡片、推文嵌入</h2>
+<p>只要把一个链接<b>单独占一行</b>放置，系统会自动抓取并渲染成预览卡片：</p>
+<pre lang="markdown"><code>普通链接会显示标题、描述、配图的 OG 卡片：
+
+https://github.com/vercel/react-tweet
+
+Twitter/X 链接会直接嵌入推文：
+
+https://x.com/elonmusk/status/1683631781486342144
+
+CodePen 链接会嵌入可交互的代码演示：
+
+https://codepen.io/username/pen/PenId</code></pre>
+<p>如果只想放普通超链接、不想生成卡片，把链接写在段落文字里（不要单独成行）即可。</p>
+
+<h1 seq="auto">预览、检查与上线</h1>
+<h2 seq="auto">本地预览</h2>
+<p>在项目根目录运行 <code>pnpm dev</code>，浏览器访问 <code>http://localhost:4321</code>，打开文章页检查标题、分类、图片、代码块、练习题是否正常。改完文件保存会自动刷新，不用重启；但改过 <code>config/site.yaml</code> 需要手动重启。</p>
+<h2 seq="auto">生成内容资产（建议每次发帖后执行）</h2>
+<p>新文章或新图片发布后，运行一次下面命令，刷新模糊占位图、AI 摘要和「相关文章」推荐：</p>
+<pre lang="bash"><code>pnpm koharu generate all</code></pre>
+<h2 seq="auto">上线</h2>
+<p>方式 A：Docker 一键部署（推荐）：</p>
+<pre lang="bash"><code>pnpm docker:up</code></pre>
+<p>方式 B：静态构建后自行托管（Nginx、Vercel、OSS 等）：</p>
+<pre lang="bash"><code>pnpm build      # 产物输出到 dist/ 目录
+pnpm preview    # 本地预览构建产物</code></pre>
+<callout emoji="⚠️" background-color="light-gray" border-color="gray"><p>正式构建会自动隐藏所有 <code>draft: true</code> 的草稿。上线前确认草稿已改为 false 或删除该字段；分类名必须和 site.yaml 的 categoryMap 完全一致，否则构建会报错。</p></callout>
+
+<h1 seq="auto">常见问题 FAQ</h1>
+<p><b>Q1：文章写好了，网站上没有出现？</b></p>
+<ul>
+<li>检查是否 <code>draft: true</code>（草稿正式站不显示）；</li>
+<li>文件名或文件夹是否以 <code>_</code> 开头（下划线开头不发布）；</li>
+<li>title、date 是否填写且格式正确，frontmatter 是否在两行 <code>---</code> 之间；</li>
+<li>分类名是否在 site.yaml 的 categoryMap 里；</li>
+<li>是否重新构建/部署成功。</li>
+</ul>
+<p><b>Q2：图片显示为裂图？</b></p>
+<ul>
+<li>确认图片在 <code>public/img/</code> 下，引用路径以 <code>/img/</code> 开头，如 <code>/img/posts/x.webp</code>（不是本地电脑的绝对路径，也不是相对路径）；</li>
+<li>检查文件名大小写和扩展名是否一致；新增图片后建议跑 <code>pnpm koharu generate all</code>。</li>
+</ul>
+<p><b>Q3：怎么修改网站标题、副标题、导航？</b></p>
+<p>编辑 <code>config/site.yaml</code> 对应字段（site.title、site.subtitle、navigation），保存后重启 <code>pnpm dev</code> 或重新构建。</p>
+<p><b>Q4：写了一半的文章怎么存？</b></p>
+<p>正常保存文件，frontmatter 里加 <code>draft: true</code> 即可，本地能预览、正式站不显示；写完删掉该字段。</p>
+<p><b>Q5：特殊标签没有效果（如 ==高亮==、:::提醒框）？</b></p>
+<ul>
+<li>检查符号是否为英文半角、有没有写成全角；</li>
+<li>确认 site.yaml 的 content 段对应开关为 true（当前默认全开）；</li>
+<li>符号和文字之间一般不要加空格，容器标签结尾别忘了单独一行的结束标记。</li>
+</ul>
+<p><b>Q6：怎么删除或修改文章？</b></p>
+<p>删除直接删掉对应 .md 文件并重新构建；改封面、分类直接改 frontmatter。改动后建议跑一次 <code>pnpm koharu generate all</code> 更新相关推荐。</p>
+
+<h1 seq="auto">常用命令速查表</h1>
+<table>
+<colgroup><col width="300"/><col width="520"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>命令</p></th><th background-color="light-gray"><p>作用</p></th></tr></thead>
+<tbody>
+<tr><td><p><code>pnpm dev</code></p></td><td><p>启动本地预览（http://localhost:4321）</p></td></tr>
+<tr><td><p><code>pnpm koharu new post</code></p></td><td><p>交互式向导新建文章</p></td></tr>
+<tr><td><p><code>pnpm cms:install</code> / <code>pnpm cms</code></p></td><td><p>安装 / 启动可视化 CMS</p></td></tr>
+<tr><td><p><code>pnpm koharu generate all</code></p></td><td><p>生成占位图、AI 摘要、相似文章推荐</p></td></tr>
+<tr><td><p><code>pnpm build</code></p></td><td><p>构建生产网站，产物在 dist/</p></td></tr>
+<tr><td><p><code>pnpm preview</code></p></td><td><p>本地预览构建产物</p></td></tr>
+<tr><td><p><code>pnpm docker:up</code></p></td><td><p>Docker 一键构建并部署</p></td></tr>
+<tr><td><p><code>pnpm check</code></p></td><td><p>检查配置和类型是否正确</p></td></tr>
+<tr><td><p><code>pnpm lint</code></p></td><td><p>代码规范检查</p></td></tr>
+</tbody>
+</table>
+<p>更底层的主题原理可参考项目 <code>docs/</code> 目录下的开发文档（如 <code>docs/overview/10-markdown-system.md</code>），日常发帖只看本手册即可。</p>

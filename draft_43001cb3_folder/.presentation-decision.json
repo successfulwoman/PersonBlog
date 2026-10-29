@@ -1,0 +1,11 @@
+{
+  "audience": "博客主人CC和LL，不太懂编程，需要照着手册就能发帖",
+  "reader_task": "知道文章和图片放哪、frontmatter每个标签什么意思、正文Markdown扩展标签怎么写、如何预览和上线",
+  "genre_contract": "实用指南与规划",
+  "adapter": null,
+  "presentation_mode": "rich",
+  "visual_plan": {
+    "reason": "实用指南｜发帖是一条顺序流程，且文章、图片、配置分布在不同目录，用一张HTML流程图解同时承载发帖五步流程与文件存放位置，降低理解成本；其余内容用表格和代码示例查阅",
+    "blocks": [{ "type": "html5-block", "min_count": 1, "purpose": "发帖全流程与文件存放地图" }]
+  }
+}

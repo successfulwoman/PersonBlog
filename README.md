@@ -1,6 +1,6 @@
 # CC 和 LL 的个人博客
 
-> 一个开放的娱乐平台 —— 记录生活，分享知识与有趣内容
+> 个人的娱乐平台 —— 记录生活，分享知识与有趣内容
 
 这是 **CC 和 LL** 的个人博客。博客基于 [astro-koharu](https://github.com/cosZone/astro-koharu) 主题定制搭建，采用二次元萌系粉蓝风格。这里会分享我们的日常生活、学习笔记、好用工具以及各种娱乐内容。
 
@@ -41,7 +41,10 @@ pnpm preview
 2. 填写 frontmatter：标题、日期、分类、标签等
 3. 保存后 `pnpm dev` 本地预览，确认无误后构建部署
 
-📄 详细的字段说明和发布流程见仓库内的 **《发布帖子使用说明.docx》**。
+## 使用手册
+   plain 快捷介绍博客内容与链接卡片
+
+    https://my.feishu.cn/docx/NFD9dlxjYobcV3xAz4hcL7yLnkc
 
 也支持交互式创建：
 

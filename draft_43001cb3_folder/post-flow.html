@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="use-iframe" content="true">
+<meta name="html-box-height-mode" content="auto">
+<meta name="description" content="发帖五步流程与博客文件存放位置地图，展示文章、图片、配置分别放在哪里以及发帖上线的顺序">
+<title>发帖流程与文件地图</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:#fff; color:#1F2329; padding:20px 22px; }
+  .title { font-size:17px; font-weight:700; margin-bottom:4px; }
+  .subtitle { font-size:13px; color:#646A73; margin-bottom:16px; }
+  .flow { display:flex; align-items:stretch; gap:0; margin-bottom:22px; flex-wrap:wrap; }
+  .step { flex:1; min-width:120px; background:#F2F7FF; border:1px solid #D6E4FA; border-radius:10px; padding:12px 10px; text-align:center; position:relative; }
+  .step .num { display:inline-block; width:22px; height:22px; line-height:22px; border-radius:50%; background:#4D9DE0; color:#fff; font-size:13px; font-weight:700; margin-bottom:6px; }
+  .step .name { font-size:14px; font-weight:700; margin-bottom:4px; }
+  .step .desc { font-size:12px; color:#646A73; line-height:1.5; }
+  .arrow { display:flex; align-items:center; padding:0 5px; color:#4D9DE0; font-size:18px; font-weight:700; }
+  .map-title { font-size:15px; font-weight:700; margin:6px 0 10px; border-left:3px solid #4D9DE0; padding-left:8px; }
+  .tree { background:#FAFBFC; border:1px solid #DEE3E8; border-radius:10px; padding:14px 16px; font-size:13px; line-height:1.95; }
+  .tree .root { font-weight:700; color:#1F2329; }
+  .tree .folder { color:#2B6CB0; font-weight:700; }
+  .tree .file { color:#1F2329; }
+  .tree .note { color:#646A73; }
+  .tree .tag { display:inline-block; background:#E8F4FD; color:#2B6CB0; border-radius:4px; font-size:11px; padding:0 6px; margin-left:6px; }
+  .tree .tag.img { background:#E6F6EC; color:#27865A; }
+  .tree .tag.cfg { background:#FDF0E2; color:#B45309; }
+  .legend { display:flex; gap:16px; margin-top:10px; font-size:12px; color:#646A73; flex-wrap:wrap; }
+  .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .dot { width:10px; height:10px; border-radius:3px; display:inline-block; }
+</style>
+</head>
+<body>
+  <div class="title">发一篇帖子的完整流程</div>
+  <div class="subtitle">记住一句话：写 Markdown 文件 → 图片放 public/img → 本地预览 → 构建上线，全程不用碰代码。</div>
+  <div class="flow">
+    <div class="step"><div class="num">1</div><div class="name">写文章</div><div class="desc">在 src/content/blog/ 对应分类目录里新建 .md 文件</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">2</div><div class="name">放图片</div><div class="desc">图片丢进 public/img/，文章里用路径引用</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">3</div><div class="name">本地预览</div><div class="desc">pnpm dev 打开 localhost:4321 检查效果</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">4</div><div class="name">生成资产</div><div class="desc">pnpm koharu generate all 刷新占位图与推荐</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">5</div><div class="name">构建上线</div><div class="desc">pnpm docker:up 或 pnpm build 后部署</div></div>
+  </div>
+
+  <div class="map-title">文件都放在哪（项目根目录 astro-koharu-6.2.2/）</div>
+  <div class="tree">
+    <div class="root">astro-koharu-6.2.2/</div>
+    <div>├── <span class="folder">src/content/blog/</span><span class="tag">文章放这里</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;├── <span class="folder">daily/</span>&nbsp;<span class="note">日常分类文章</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;├── <span class="folder">life/</span>&nbsp;&nbsp;<span class="note">随笔分类文章</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;├── <span class="folder">tech/</span>&nbsp;&nbsp;<span class="note">技术分类文章</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;└── <span class="file">_template.md</span>&nbsp;<span class="note">发帖模板（下划线开头不会被发布，可直接复制）</span></div>
+    <div>├── <span class="folder">public/img/</span><span class="tag img">图片放这里</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;├── <span class="folder">posts/</span>&nbsp;&nbsp;<span class="note">文章正文图和封面（推荐，命名：文章名.序号.webp）</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;├── <span class="folder">custom/</span>&nbsp;<span class="note">头像、站点头图；custom/cover/ 里是 21 张默认封面</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;└── <span class="folder">effects/</span>&nbsp;<span class="note">站点装饰特效图</span></div>
+    <div>├── <span class="folder">config/</span><span class="tag cfg">改站点设置</span></div>
+    <div>│&nbsp;&nbsp;&nbsp;└── <span class="file">site.yaml</span>&nbsp;<span class="note">站名、分类映射、导航、友链等全部配置</span></div>
+    <div>└── <span class="folder">dist/</span>&nbsp;<span class="note">pnpm build 自动生成的成品网站，不用手改</span></div>
+    <div class="legend">
+      <span><i class="dot" style="background:#E8F4FD;border:1px solid #D6E4FA"></i>文章类</span>
+      <span><i class="dot" style="background:#E6F6EC;border:1px solid #BFE5CD"></i>图片类</span>
+      <span><i class="dot" style="background:#FDF0E2;border:1px solid #F3D6AE"></i>配置类</span>
+    </div>
+  </div>
+</body>
+</html>
